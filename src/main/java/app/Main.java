@@ -50,12 +50,12 @@ public class Main {
         // Hent nyhedsbreve fra databasen
         List<Newsletters> newsletters = NewsletterMapper.getAllNewsletters(connectionPool);
 
+        // Log nyhedsbrevenes størrelse for debugging
+        System.out.println("Antal nyhedsbreve fundet: " + newsletters.size());
+
         // Hvis der ikke er nyhedsbreve, log en besked
         if (newsletters == null || newsletters.isEmpty()) {
             System.out.println("Der er ingen nyhedsbreve at vise.");
-        } else {
-            // Hvis nyhedsbreve er fundet, log antal fundne nyhedsbreve
-            System.out.println("Antal nyhedsbreve fundet: " + newsletters.size());
         }
 
         // Sæt newsletters som attribut i konteksten
@@ -90,7 +90,6 @@ public class Main {
             ctx.render("signup.html");
         }
     }
-
 
     private static void login(Context ctx){
         String userName = ctx.formParam("username");

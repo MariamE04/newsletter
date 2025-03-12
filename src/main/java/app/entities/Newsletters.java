@@ -31,24 +31,48 @@ public class Newsletters {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getFilename() {
         return filename;
     }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     public String getTeasertext() {
         return teasertext;
+    }
+
+    public void setTeasertext(String teasertext) {
+        this.teasertext = teasertext;
     }
 
     public String getThumbnailName() {
         return thumbnailName;
     }
 
+    public void setThumbnailName(String thumbnailName) {
+        this.thumbnailName = thumbnailName;
+    }
+
     public Date getPublished() {
         return published;
+    }
+
+    public void setPublished(Date published) {
+        this.published = published;
     }
 
     @Override
