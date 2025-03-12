@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <title>Newsletters</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,17 @@
 </head>
 
 <body>
-<h1>Welcome to the Javalin / Thymeleaf demo</h1>
-<p>This is your first web application in this world</p>
+<h1>login</h1>
+<p th:text="${message}"></p>
+
+<form method="post">
+  <label for="username">Username</label>
+    <input type="text" id="username" placeholder="username"/>
+    <label for="password"></label>
+    <input type="password" id="password" placeholder="password"/>
+    <button type="submit" formaction="/">login</button>
+
+</form>
+
 </body>
 </html>

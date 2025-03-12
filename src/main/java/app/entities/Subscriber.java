@@ -1,12 +1,12 @@
 package app.entities;
 
-public class Subsciber {
+public class Subscriber {
     private String email;
     private boolean created;
 
-    public Subsciber(String email, boolean created) {
+    public Subscriber(String email, boolean created) {
         this.email = email;
-        this.created = false;
+        this.created = created;
     }
 
     public String getEmail() {

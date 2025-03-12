@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Archived Newsletters</title>
+</head>
+<body>
+<h1>Arkiverede Nyhedsbreve</h1>
+
+<!-- Hvis der er nyhedsbreve, vis dem -->
+<div th:if="${not newsletters.empty}">
+    <p>Antal nyhedsbreve: <span th:text="${newsletters.size()}"></span></p>
+    <ul>
+        <li th:each="newsletter : ${newsletters}">
+            <h3 th:text="${newsletter.title}">Newsletter Title</h3>
+            <p th:text="${newsletter.teasertext}">Teaser Text</p>
+            <a th:href="@{files/{filename}(filename=${newsletter.filename})}" target="_blank">Download</a>
+            <div th:if="${newsletter.thumbnail_name}">
+                <img th:src="@{images/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail"/>
+            </div>
+            <div th:unless="${newsletter.thumbnail_name}">
+                <p>No thumbnail available</p>
+            </div>
+            <p th:text="'Published: ' + ${#dates.format(newsletter.published, 'yyyy-MM-dd')}">Published Date</p>
+            <p th:text="'ID: ' + ${newsletter.id}">Newsletter ID</p>
+        </li>
+    </ul>
+</div>
+<div th:if="${newsletters.empty}">
+    <p>Der er ingen arkiverede nyhedsbreve at vise.</p>
+</div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Newsletters</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/styles.css" rel="stylesheet"/>
+</head>
+
+<body>
+<h1>Velkommen!</h1>
+<p th:text="${message}"></p>
+
+<h2>Tilmeld dig vores nyhedsbrev</h2>
+<form method="post" action="/signup">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <button type="submit">Sign Up</button>
+
+    <h2><a href="newsletters.html">Se arkiverede nyhedsbreve</a></h2>
+
+</form>
+</body>
+</html>
