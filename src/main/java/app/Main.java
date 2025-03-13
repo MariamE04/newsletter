@@ -2,17 +2,13 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
-import app.entities.Newsletters;
+import app.controllers.NewsletterController;
 import app.entities.Subscriber;
-import app.exceptions.DatabaseException;
 import app.persistence.MyConnectionPool;
-import app.persistence.NewsletterMapper;
 import app.persistence.SubscriberMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.rendering.template.JavalinThymeleaf;
-
-import java.util.List;
 import java.util.logging.Logger;
 
 public class Main {
@@ -37,34 +33,19 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
+        // Opret controller instans
+        NewsletterController newsletterController = new NewsletterController(connectionPool);
+
         // Routing
 
         app.get("/", ctx -> ctx.render("index.html"));
         app.get("/signup", ctx -> viewSignupPage(ctx));
         app.post("/signup", ctx -> SignUp(ctx));
-        app.get("/newsletters", ctx -> viewNewsletters(ctx));
+
+        // Routing for nyhedsbreve, som nu bruger controllerens viewNewsletters metode
+        app.get("/newsletters", newsletterController::viewNewsletters);
 
     }
-
-    private static void viewNewsletters(Context ctx) throws DatabaseException {
-        // Hent nyhedsbreve fra databasen
-        List<Newsletters> newsletters = NewsletterMapper.getAllNewsletters(connectionPool);
-
-        // Log nyhedsbrevenes størrelse for debugging
-        System.out.println("Antal nyhedsbreve fundet: " + newsletters.size());
-
-        // Hvis der ikke er nyhedsbreve, log en besked
-        if (newsletters == null || newsletters.isEmpty()) {
-            System.out.println("Der er ingen nyhedsbreve at vise.");
-        }
-
-        // Sæt newsletters som attribut i konteksten
-        ctx.attribute("newsletters", newsletters);
-
-        // Render Thymeleaf-skabelonen
-        ctx.render("newsletters.html");
-    }
-
 
     private static void viewSignupPage(Context ctx) {
         String message = "Lær mere via Campus Lyngbys nyhedsbrev";

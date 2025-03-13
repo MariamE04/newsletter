@@ -2,9 +2,6 @@ package app.persistence;
 
 import app.entities.Subscriber;
 import app.exceptions.DatabaseException;
-import app.persistence.MyConnectionPool;
-
-
 import java.sql.*;
 import java.time.DateTimeException;
 

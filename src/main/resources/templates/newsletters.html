@@ -8,15 +8,23 @@
 </head>
 <body>
 <h1>Liste af Nyhedsbreve</h1>
-<div>
-    <!-- Loop igennem nyhedsbreve -->
+
+<!-- Hvis der er nyhedsbreve -->
+<div th:if="${#lists.isEmpty(newsletters)}">
+    <p>Der er ingen nyhedsbreve tilgængelige.</p>
+</div>
+
+<div th:unless="${#lists.isEmpty(newsletters)}">
+    <!-- Vis antal nyhedsbreve -->
+    <p>Antal nyhedsbreve: <span th:text="${newsletters.size()}"></span></p>
+
     <ul>
         <th:block th:each="newsletter : ${newsletters}">
             <li>
                 <!-- Vis titel -->
                 <h2 th:text="${newsletter.title}"></h2>
 
-                <!-- Vis teasertext -->
+                <!-- Vis teasertekst -->
                 <p th:text="${newsletter.teasertext}"></p>
 
                 <!-- Vis udgivelsesdato -->
@@ -24,14 +32,15 @@
 
                 <!-- Hvis thumbnail findes, vis billede -->
                 <div th:if="${newsletter.thumbnail_name != null}">
-                    <img th:src="@{/images/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail">
+                    <img th:src="@{/images/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail" />
                 </div>
 
-                <!-- vise link til nyhedsbrev filen -->
+                <!-- Vise link til nyhedsbrev filen -->
                 <a th:href="@{/files/{filename}(filename=${newsletter.filename})}">Læs nyhedsbrev</a>
             </li>
         </th:block>
     </ul>
 </div>
+
 </body>
 </html>
