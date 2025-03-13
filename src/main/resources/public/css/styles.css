@@ -40,3 +40,20 @@ body {
         flex: 1 1 100%; /* Fuld bredde */
     }
 }
+
+.upload-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 200px;
+    margin: 20px auto;
+}
+
+.upload-link:hover {
+    background-color: #0056b3;
+}

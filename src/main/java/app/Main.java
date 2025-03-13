@@ -3,8 +3,10 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.NewsletterController;
+import app.entities.Newsletters;
 import app.entities.Subscriber;
 import app.persistence.MyConnectionPool;
+import app.persistence.NewsletterMapper;
 import app.persistence.SubscriberMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -22,6 +24,7 @@ public class Main {
     private static final String DB = "nyhedsbreve";
 
     private static final MyConnectionPool connectionPool = MyConnectionPool.getInstance(USER, PASSWORD, URL, DB);
+    private static final NewsletterController newsletterController = new NewsletterController(connectionPool);
 
 
     public static void main(String[] args)
@@ -50,6 +53,9 @@ public class Main {
 
         // Routing for nyhedsbreve, som nu bruger controllerens viewNewsletters metode
         app.get("/newsletters", newsletterController::viewNewsletters);
+        app.post("/upload", ctx -> newsletterController.addNewsletter(ctx));  // Add a new newsletter
+        app.get("/upload", ctx -> ctx.render("upload.html"));
+
 
     }
 
@@ -77,15 +83,4 @@ public class Main {
             ctx.render("signup.html");
         }
     }
-
-    private static void login(Context ctx){
-        String userName = ctx.formParam("username");
-        String password = ctx.formParam("password");
-        if (!password.equals("1234")) {
-            ctx.redirect("login.html");
-        }
-        ctx.attribute("username", userName);
-        ctx.render("index.html");
-    }
-
 }
