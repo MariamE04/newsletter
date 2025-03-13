@@ -5,3 +5,38 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 3rem;
 }
+
+body {
+    background-color: lightblue; /* Midlertidig test */
+}
+
+.newsletter-container {
+    display: flex;
+    flex-wrap: wrap; /* Sørger for, at de rykker ned, hvis der ikke er plads */
+    gap: 20px; /* Afstand mellem elementerne */
+    justify-content: center; /* Centrerer indholdet */
+}
+
+.newsletter {
+    flex: 1 1 calc(33.33% - 20px); /* 3 kolonner med mellemrum */
+    max-width: 300px; /* Sikrer, at de ikke bliver for brede */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.newsletter img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Når skærmen er mindre (mobil), skal de stå over hinanden */
+@media (max-width: 768px) {
+    .newsletter {
+        flex: 1 1 100%; /* Fuld bredde */
+    }
+}

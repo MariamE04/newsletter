@@ -1,45 +1,45 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nyhedsbreve</title>
+    <link href="../../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
 </head>
 <body>
+
+<header>
+</header>
+
 <h1>Liste af Nyhedsbreve</h1>
 
-<!-- Hvis der er nyhedsbreve -->
+<!-- Hvis der er ingen nyhedsbreve -->
 <div th:if="${#lists.isEmpty(newsletters)}">
     <p>Der er ingen nyhedsbreve tilgængelige.</p>
 </div>
 
+<!-- Hvis der er nyhedsbreve -->
 <div th:unless="${#lists.isEmpty(newsletters)}">
-    <!-- Vis antal nyhedsbreve -->
     <p>Antal nyhedsbreve: <span th:text="${newsletters.size()}"></span></p>
 
-    <ul>
+    <div class="newsletter-container">
         <th:block th:each="newsletter : ${newsletters}">
-            <li>
-                <!-- Vis titel -->
+            <div class="newsletter">
                 <h2 th:text="${newsletter.title}"></h2>
-
-                <!-- Vis teasertekst -->
                 <p th:text="${newsletter.teasertext}"></p>
-
-                <!-- Vis udgivelsesdato -->
                 <p>Udgivet: <span th:text="${newsletter.published}"></span></p>
 
-                <!-- Hvis thumbnail findes, vis billede -->
+                <!-- Thumbnail billede -->
                 <div th:if="${newsletter.thumbnail_name != null}">
-                    <img th:src="@{/images/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail" />
+                    <img th:src="@{/files/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail" />
                 </div>
 
-                <!-- Vise link til nyhedsbrev filen -->
-                <a th:href="@{/files/{filename}(filename=${newsletter.filename})}">Læs nyhedsbrev</a>
-            </li>
+                <!-- Link til nyhedsbrev -->
+                <a th:href="@{'/files/' + ${newsletter.filename} + '.pdf'}">Læs nyhedsbrev</a>
+            </div>
         </th:block>
-    </ul>
+    </div>
 </div>
 
 </body>

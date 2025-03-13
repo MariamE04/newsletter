@@ -8,6 +8,7 @@ import app.persistence.MyConnectionPool;
 import app.persistence.SubscriberMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import java.util.logging.Logger;
 
@@ -29,6 +30,11 @@ public class Main {
         // Initializing Javalin and Jetty webserver
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public");
+            config.staticFiles.add(staticFiles -> {
+                staticFiles.hostedPath = "/files";   // Serve at http://localhost:7000/files
+                staticFiles.directory = "files";    // Serve from "files" folder in working directory
+                staticFiles.location = Location.EXTERNAL; // Load from outside the JAR
+            });
             config.jetty.modifyServletContextHandler(handler ->  handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);

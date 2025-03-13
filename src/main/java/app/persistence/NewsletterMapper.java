@@ -70,7 +70,7 @@ public class NewsletterMapper {
             ps.setString(1, newsletter.getTitle());
             ps.setString(2, newsletter.getFilename());
             ps.setString(3, newsletter.getTeasertext());
-            ps.setString(4, newsletter.getThumbnailName());
+            ps.setString(4, newsletter.getThumbnail_name());
             ps.setDate(5, new java.sql.Date(newsletter.getPublished().getTime()));
 
             int rowsAffected = ps.executeUpdate();

@@ -7,23 +7,23 @@ public class Newsletters {
     private String title;
     private String filename;
     private String teasertext;
-    private String thumbnailName;
+    private String thumbnail_name;
     private Date published;
 
-    public Newsletters(int id, String title, String filename, String teasertext, String thumbnailName, Date published) {
+    public Newsletters(int id, String title, String filename, String teasertext, String thumbnail_name, Date published) {
         this.id = id;
         this.title = title;
         this.filename = filename;
         this.teasertext = teasertext;
-        this.thumbnailName = thumbnailName;
+        this.thumbnail_name = thumbnail_name;
         this.published = published;
     }
 
-    public Newsletters(String title, String filename, String teasertext, String thumbnailName, Date published) {
+    public Newsletters(String title, String filename, String teasertext, String thumbnail_name, Date published) {
         this.title = title;
         this.filename = filename;
         this.teasertext = teasertext;
-        this.thumbnailName = thumbnailName;
+        this.thumbnail_name = thumbnail_name;
         this.published = published;
     }
 
@@ -59,12 +59,12 @@ public class Newsletters {
         this.teasertext = teasertext;
     }
 
-    public String getThumbnailName() {
-        return thumbnailName;
+    public String getThumbnail_name() {
+        return thumbnail_name;
     }
 
-    public void setThumbnailName(String thumbnailName) {
-        this.thumbnailName = thumbnailName;
+    public void setThumbnail_name(String thumbnail_name) {
+        this.thumbnail_name = thumbnail_name;
     }
 
     public Date getPublished() {
@@ -82,7 +82,7 @@ public class Newsletters {
                 ", title='" + title + '\'' +
                 ", filename='" + filename + '\'' +
                 ", teasertext='" + teasertext + '\'' +
-                ", thumbnailName='" + thumbnailName + '\'' +
+                ", thumbnailName='" + thumbnail_name + '\'' +
                 ", published=" + published +
                 '}';
     }
