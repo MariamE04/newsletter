@@ -27,14 +27,6 @@ public class Newsletters {
         this.published = published;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -74,6 +66,7 @@ public class Newsletters {
     public void setPublished(Date published) {
         this.published = published;
     }
+
 
     @Override
     public String toString() {

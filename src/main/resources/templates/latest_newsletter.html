@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyeste Nyhedsbrev</title>
+</head>
+<body>
+<h1>Nyeste Nyhedsbrev</h1>
+<div th:if="${newsletter != null}">
+  <h2 th:text="${newsletter.title}"></h2>
+  <p th:text="${newsletter.teaserText}"></p>
+  <p>Udgivet: <span th:text="${newsletter.published}"></span></p>
+
+  <div th:if="${newsletter.thumbnail_name != null}">
+    <img th:src="@{/files/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail"/>
+  </div>
+
+  <a th:href="@{'/files/' + ${newsletter.filename} + '.pdf'}">Læs nyhedsbrev</a>
+</div>
+
+<div th:if="${newsletter == null}">
+  <p>Der er ingen nyhedsbreve tilgængelige.</p>
+</div>
+</body>
+</html>

@@ -7,6 +7,7 @@ import app.persistence.MyConnectionPool;
 import io.javalin.http.Context;
 import io.javalin.http.UploadedFile;
 
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -15,6 +16,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NewsletterController {
@@ -39,7 +41,18 @@ public class NewsletterController {
 
     public void addNewsletter(Context ctx) {
         try {
-            // 1. Hent og valider formular-data
+            // Opret nødvendige mapper, hvis de ikke eksisterer
+            Path newslettersDir = Path.of("files");
+            Path thumbnailsDir = Path.of("files");
+
+            if (!Files.exists(newslettersDir)) {
+                Files.createDirectories(newslettersDir);
+            }
+            if (!Files.exists(thumbnailsDir)) {
+                Files.createDirectories(thumbnailsDir);
+            }
+
+            // Hent og valider formular-data
             String title = ctx.formParam("title");
             String teaserText = ctx.formParam("teaser_text");
             String publishedDateString = ctx.formParam("published_date");
@@ -54,7 +67,7 @@ public class NewsletterController {
                 return;
             }
 
-            // 2. Konverter dato korrekt
+            // Konverter dato korrekt
             LocalDate publishedDate;
             try {
                 publishedDate = LocalDate.parse(publishedDateString, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -63,7 +76,7 @@ public class NewsletterController {
                 return;
             }
 
-            // 3. Håndter uploadede filer
+            // Håndter uploadede filer
             UploadedFile pdfFile = ctx.uploadedFile("newsletter_file");
             UploadedFile thumbnailFile = ctx.uploadedFile("thumbnail_file");
 
@@ -72,7 +85,7 @@ public class NewsletterController {
                 return;
             }
 
-            // 4. Validér filtyper
+            // Validér filtyper
             if (!"application/pdf".equalsIgnoreCase(pdfFile.contentType())) {
                 ctx.status(400).result("Kun PDF-filer er tilladt.");
                 return;
@@ -82,26 +95,50 @@ public class NewsletterController {
                 return;
             }
 
-            // 5. Gem filer i upload-mapper
-            String pdfFilename = pdfFile.filename();
-            String thumbnailFilename = thumbnailFile.filename();
-            Path pdfPath = Path.of("uploads/newsletters", pdfFilename);
-            Path thumbnailPath = Path.of("uploads/thumbnails", thumbnailFilename);
+            // Sørg for, at .pdf kun tilføjes, hvis det ikke allerede er der
+            String pdfFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
 
-            Files.copy(pdfFile.content(), pdfPath, StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(thumbnailFile.content(), thumbnailPath, StandardCopyOption.REPLACE_EXISTING);
+            // Tjekker, om filen allerede ender med .pdf
+            if (!pdfFilename.toLowerCase().endsWith(".pdf")) {
+                pdfFilename += ".pdf";
+            }
+
+
+            String thumbnailFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_") + ".png";
+            Path pdfPath = newslettersDir.resolve(pdfFilename);
+            Path thumbnailPath = thumbnailsDir.resolve(thumbnailFilename);
+
+            // Kopier filer til de respektive mapper
+            try (InputStream pdfInputStream = pdfFile.content();
+                 InputStream thumbnailInputStream = thumbnailFile.content()) {
+                Files.copy(pdfInputStream, pdfPath, StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(thumbnailInputStream, thumbnailPath, StandardCopyOption.REPLACE_EXISTING);
+            }
 
             // Konvertering fra LocalDate til Date
             Date publishedDateAsDate = Date.from(publishedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-            // 6. Opret og gem nyhedsbrev i databasen
-            Newsletters newsletter = new Newsletters(title, teaserText, pdfFilename, thumbnailFilename, publishedDateAsDate);
+            // Opret og gem nyhedsbrev i databasen
+            Newsletters newsletter = new Newsletters(title, pdfFilename, teaserText, thumbnailFilename, publishedDateAsDate);
             NewsletterMapper.createNewsletter(newsletter, connectionPool);
 
             ctx.redirect("/newsletters");
         } catch (Exception e) {
-            LOGGER.severe("Fejl ved upload af nyhedsbrev: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Fejl ved upload af nyhedsbrev: " + e.getMessage(), e);
             ctx.status(500).result("Der opstod en fejl ved upload af nyhedsbrev.");
         }
     }
+
+    public void viewLatestNewsletter(Context ctx) {
+        try {
+            Newsletters latestNewsletter = NewsletterMapper.getLatestNewsletter(connectionPool);
+            ctx.attribute("newsletter", latestNewsletter);  // Gem det nyeste nyhedsbrev i attributten
+            ctx.render("latest_newsletter.html");  // Opret en HTML-side, der viser det nyeste nyhedsbrev
+        } catch (DatabaseException e) {
+            LOGGER.severe("Fejl ved hentning af nyeste nyhedsbrev: " + e.getMessage());
+            ctx.result("Der opstod en fejl ved hentning af det nyeste nyhedsbrev.");
+        }
+    }
+
+
 }

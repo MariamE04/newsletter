@@ -37,7 +37,7 @@ public class NewsletterMapper {
         String sql = "SELECT * FROM newsletters WHERE id = ?";
 
         try (
-                Connection connection = myConnectionPool.getConnection();  // Brug connection poolen
+                Connection connection = myConnectionPool.getConnection();  //connection poolen
                 PreparedStatement ps = connection.prepareStatement(sql)
         ) {
             ps.setInt(1, id);

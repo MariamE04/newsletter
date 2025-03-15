@@ -3,10 +3,8 @@ package app;
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.NewsletterController;
-import app.entities.Newsletters;
 import app.entities.Subscriber;
 import app.persistence.MyConnectionPool;
-import app.persistence.NewsletterMapper;
 import app.persistence.SubscriberMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -42,11 +40,8 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
-        // Opret controller instans
-        NewsletterController newsletterController = new NewsletterController(connectionPool);
 
         // Routing
-
         app.get("/", ctx -> ctx.render("index.html"));
         app.get("/signup", ctx -> viewSignupPage(ctx));
         app.post("/signup", ctx -> SignUp(ctx));
@@ -55,8 +50,7 @@ public class Main {
         app.get("/newsletters", newsletterController::viewNewsletters);
         app.post("/upload", ctx -> newsletterController.addNewsletter(ctx));  // Add a new newsletter
         app.get("/upload", ctx -> ctx.render("upload.html"));
-
-
+        app.get("/latest-newsletter", newsletterController::viewLatestNewsletter);
     }
 
     private static void viewSignupPage(Context ctx) {
