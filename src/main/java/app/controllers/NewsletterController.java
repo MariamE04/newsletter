@@ -96,13 +96,11 @@ public class NewsletterController {
             }
 
             String pdfFilename = Path.of(title).getFileName().toString().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
-            if (!pdfFilename.toLowerCase().endsWith(".pdf")) {
-                pdfFilename += ".pdf";
-            }
+            Path pdfPath = newslettersDir.resolve(pdfFilename + ".pdf");
+
 
 
             String thumbnailFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_") + ".png";
-            Path pdfPath = newslettersDir.resolve(pdfFilename);
             Path thumbnailPath = thumbnailsDir.resolve(thumbnailFilename);
 
             // Kopier filer til de respektive mapper
