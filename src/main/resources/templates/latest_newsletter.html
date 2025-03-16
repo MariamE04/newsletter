@@ -5,23 +5,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nyeste Nyhedsbrev</title>
+  <link href="/css/latestNews.css" rel="stylesheet"/>
 </head>
 <body>
-<h1>Nyeste Nyhedsbrev</h1>
-<div th:if="${newsletter != null}">
-  <h2 th:text="${newsletter.title}"></h2>
-  <p th:text="${newsletter.teaserText}"></p>
-  <p>Udgivet: <span th:text="${newsletter.published}"></span></p>
+<div class="content">
+  <h1>Nyeste Nyhedsbrev</h1>
+  <div th:if="${newsletter != null}">
+    <h2 th:text="${newsletter.title}"></h2>
+    <p th:text="${newsletter.teaserText}"></p>
+    <p>Udgivet: <span th:text="${newsletter.published}"></span></p>
 
-  <div th:if="${newsletter.thumbnail_name != null}">
-    <img th:src="@{/files/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail"/>
+    <div th:if="${newsletter.thumbnail_name != null}">
+      <img th:src="@{/files/{thumbnail}(thumbnail=${newsletter.thumbnail_name})}" alt="Thumbnail"/>
+    </div>
+
+    <a th:href="@{'/files/' + ${newsletter.filename} + '.pdf'}">Læs nyhedsbrev</a>
   </div>
 
-  <a th:href="@{'/files/' + ${newsletter.filename} + '.pdf'}">Læs nyhedsbrev</a>
-</div>
-
-<div th:if="${newsletter == null}">
-  <p>Der er ingen nyhedsbreve tilgængelige.</p>
+  <div th:if="${newsletter == null}">
+    <p>Der er ingen nyhedsbreve tilgængelige.</p>
+  </div>
 </div>
 </body>
 </html>

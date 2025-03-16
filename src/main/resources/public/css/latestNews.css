@@ -1,0 +1,22 @@
+/* Sørg for at body fylder hele skærmen */
+body {
+    display: flex;
+    justify-content: center; /* Centrer indholdet horisontalt */
+    align-items: flex-start;  /* Juster så indholdet starter fra toppen af skærmen */
+    height: 100vh;            /* Få body til at fylde hele skærmen */
+    margin: 0;                /* Fjern marginer */
+    font-family: Arial, sans-serif; /* Vælg skrifttype */
+    background-color: #72acec; /* Valgfri baggrundsfarve */
+}
+
+/* Indholdet, der skal centreret */
+.content {
+    text-align: center; /* Gør teksten centreret */
+    padding: 20px;
+    background-color: white; /* Baggrund for indholdet */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Let skygge for at adskille fra baggrund */
+    border-radius: 10px; /* Runde hjørner */
+    width: 80%; /* Begræns bredden */
+    max-width: 600px; /* Maksimal bredde */
+    margin-top: 20px; /* Giver lidt afstand til toppen */
+}

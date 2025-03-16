@@ -15,6 +15,12 @@
 
 <h1>Liste af Nyhedsbreve</h1>
 
+<form method="get" action="/search-newsletters">
+    <input type="text" name="query" th:value="${searchQuery}" placeholder="Søg efter nyhedsbrev...">
+    <button type="submit">Søg</button>
+</form>
+
+
 <!-- Link til det nyeste nyhedsbrev med knap-stil -->
 <a th:href="@{/latest-newsletter}" class="th-button">Se den nyeste nyhedsbrev</a>
 

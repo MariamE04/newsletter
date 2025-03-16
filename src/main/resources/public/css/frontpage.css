@@ -1,0 +1,64 @@
+/* Gør alt centreret */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Placer indholdet øverst og footer nederst */
+    text-align: center;
+    height: 100vh; /* Sørg for, at body fylder hele skærmen */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: bisque;
+}
+
+/* Tilføj baggrundsbillede */
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* CPH Business-logo i øverste venstre hjørne */
+.logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px; /* Juster størrelse */
+}
+
+/* Form design */
+form {
+    background: rgba(255, 255, 255, 0.8); /* Let baggrund */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    z-index: 1; /* Sørg for, at formularen er synlig ovenpå andre elementer */
+    position: relative;
+}
+
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #eab134;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    margin-top: auto; /* Får footeren til at placere sig nederst */
+    text-align: center;
+    padding: 10px 0;
+}
+

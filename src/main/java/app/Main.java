@@ -4,18 +4,13 @@ import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.controllers.HomeController;
 import app.controllers.NewsletterController;
-import app.exceptions.DatabaseException;
 import app.persistence.MyConnectionPool;
-import app.persistence.NewsletterMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import java.util.logging.Logger;
 
 public class Main {
-
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
@@ -53,6 +48,7 @@ public class Main {
         app.post("/upload", ctx -> newsletterController.addNewsletter(ctx));  // Add a new newsletter
         app.get("/upload", ctx -> ctx.render("upload.html"));
         app.get("/latest-newsletter", newsletterController::viewLatestNewsletter);
+        app.get("/search-newsletters", newsletterController::searchNewsletters);
     }
 
     private static void viewSignupPage(Context ctx) {

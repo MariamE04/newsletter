@@ -4,11 +4,16 @@
     <title>Newsletters</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/frontpage.css" rel="stylesheet"/>
 </head>
 
 <body>
+<!-- CPH Business logo -->
+<img src="/images/logo.png" alt="CPH Business Logo" class="logo">
+
 <h1>Velkommen!</h1>
+<img src="/images/front2.png.jpg" alt="Header Image" style="width: 100%; max-height: 300px; object-fit: cover;">
+
 <p th:text="${message}"></p>
 
 <h2>Tilmeld dig vores nyhedsbrev</h2>
@@ -20,7 +25,15 @@
 
     <div class="subscriber-message" th:if="${message}"><p th:text="${message}"></p></div>
 
-
 </form>
+
+<br><br>
+<!-- Footer udenfor formularen -->
+<footer>
+    <p>© 2025 Cphbusiness. Alle rettigheder forbeholdes. <br>
+        Adresse: Cphbusiness, Firskovvej 18, 2800
+        Email: kontakt@cphbusiness.dk  Telefon: +45 [Telefonnummer]
+    </p>
+</footer>
 </body>
 </html>

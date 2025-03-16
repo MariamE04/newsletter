@@ -66,3 +66,33 @@ body {
     border: 1px solid red;
     border-radius: 5px;
 }
+
+form {
+    display: flex;         /* Bruger flexbox */
+    justify-content: center; /* Centrerer vandret */
+    gap: 10px;             /* Giver lidt afstand mellem input og knap */
+    margin-top: 20px;      /* Skaber afstand fra overskriften */
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;         /* Gør søgefeltet bredere */
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+

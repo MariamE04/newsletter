@@ -135,4 +135,24 @@ public class NewsletterController {
             ctx.result("Der opstod en fejl ved hentning af det nyeste nyhedsbrev.");
         }
     }
+
+    public void searchNewsletters(Context ctx) {
+        String searchTerm = ctx.queryParam("query");
+
+        if (searchTerm == null || searchTerm.trim().isEmpty()) {
+            ctx.redirect("/newsletters");
+            return;
+        }
+
+        try {
+            List<Newsletters> searchResults = NewsletterMapper.searchNewsletters(searchTerm, connectionPool);
+            ctx.attribute("newsletters", searchResults);
+            ctx.attribute("searchQuery", searchTerm); // Gem søgeteksten så den kan vises i inputfeltet
+            ctx.render("newsletters.html");
+        } catch (DatabaseException e) {
+            LOGGER.severe("Fejl ved søgning: " + e.getMessage());
+            ctx.result("Der opstod en fejl ved søgning.");
+        }
+    }
 }
+

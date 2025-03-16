@@ -34,33 +34,6 @@ public class NewsletterMapper {
         return newsletters;
     }
 
-    public static Newsletters getNewsletterById(int id, MyConnectionPool myConnectionPool) throws DatabaseException {
-        String sql = "SELECT * FROM newsletters WHERE id = ?";
-
-        try (
-                Connection connection = myConnectionPool.getConnection();  //connection poolen
-                PreparedStatement ps = connection.prepareStatement(sql)
-        ) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return new Newsletters(
-                        rs.getInt("id"),
-                        rs.getString("title"),
-                        rs.getString("filename"),
-                        rs.getString("teasertext"),
-                        rs.getString("thumbnail_name"),
-                        rs.getDate("published")
-                );
-            } else {
-                throw new DatabaseException("Ingen nyhedsbrev fundet med ID: " + id);
-            }
-        } catch (SQLException e) {
-            throw new DatabaseException("Fejl ved hentning af nyhedsbrev: " + e.getMessage());
-        }
-    }
-
     public static void createNewsletter(Newsletters newsletter, MyConnectionPool myConnectionPool) throws DatabaseException {
         String sql = "INSERT INTO newsletters (title, filename, teasertext, thumbnail_name, published) VALUES (?, ?, ?, ?, ?)";
 
@@ -124,6 +97,33 @@ public class NewsletterMapper {
         } catch (SQLException e) {
             throw new DatabaseException("Fejl ved hentning af seneste nyhedsbrev: " + e.getMessage());
         }
+    }
+
+    //Tilføj en metode, der søger efter nyhedsbreve baseret på en tekststreng i teasertext
+    public static List<Newsletters> searchNewsletters(String searchTerm, MyConnectionPool connectionPool) throws DatabaseException {
+        List<Newsletters> results = new ArrayList<>();
+        String sql = "SELECT * FROM newsletters WHERE teasertext ILIKE ?"; //ILIKE = Søgningen case-insensitive (PostgreSQL)
+
+        try(Connection connection = connectionPool.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+        ){
+            ps.setString(1, "%" + searchTerm + "%"); //bruger wildcard (%) for at søge på delord i teasertext
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                results.add(new Newsletters(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("filename"),
+                        rs.getString("teasertext"),
+                        rs.getString("thumbnail_name"),
+                        rs.getDate("published")
+                ));
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Fejl ved søgning efter nyhedsbreve: " + e.getMessage());
+        }
+        return results;
     }
 
 }
