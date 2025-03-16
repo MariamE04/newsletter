@@ -2,6 +2,7 @@ package app.persistence;
 
 import app.entities.Newsletters;
 import app.exceptions.DatabaseException;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,24 @@ public class NewsletterMapper {
             throw new DatabaseException("Fejl ved indsættelse af nyhedsbrev: " + e.getMessage());
         }
     }
+
+
+    public static int subscribe(String email, MyConnectionPool connectionPool) throws DatabaseException {
+
+        String sql = "INSERT INTO subscriber (email, created) VALUES (?, CURRENT_DATE) ON CONFLICT (email) DO NOTHING";
+        try (
+                Connection connection = connectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(sql)
+        ) {
+            ps.setString(1, email);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected;
+        }
+        catch (SQLException e) {
+            String msg = "Der er sket en fejl under din tilmelding til nyhedsbrev. Prøv igen";
+            throw new DatabaseException(msg, e.getMessage());
+        }
+    }
+
 
     public static Newsletters getLatestNewsletter(MyConnectionPool connectionPool) throws DatabaseException {
         String sql = "SELECT * FROM newsletters ORDER BY published DESC LIMIT 1";

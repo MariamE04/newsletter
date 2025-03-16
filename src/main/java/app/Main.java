@@ -2,10 +2,11 @@ package app;
 
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
+import app.controllers.HomeController;
 import app.controllers.NewsletterController;
-import app.entities.Subscriber;
+import app.exceptions.DatabaseException;
 import app.persistence.MyConnectionPool;
-import app.persistence.SubscriberMapper;
+import app.persistence.NewsletterMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
@@ -23,6 +24,7 @@ public class Main {
 
     private static final MyConnectionPool connectionPool = MyConnectionPool.getInstance(USER, PASSWORD, URL, DB);
     private static final NewsletterController newsletterController = new NewsletterController(connectionPool);
+    private static final HomeController homeController = new HomeController(connectionPool);
 
 
     public static void main(String[] args)
@@ -44,7 +46,7 @@ public class Main {
         // Routing
         app.get("/", ctx -> ctx.render("index.html"));
         app.get("/signup", ctx -> viewSignupPage(ctx));
-        app.post("/signup", ctx -> SignUp(ctx));
+        app.post("/signup", homeController::subscribe);
 
         // Routing for nyhedsbreve, som nu bruger controllerens viewNewsletters metode
         app.get("/newsletters", newsletterController::viewNewsletters);
@@ -57,24 +59,5 @@ public class Main {
         String message = "Lær mere via Campus Lyngbys nyhedsbrev";
         ctx.attribute("message", message);
         ctx.render("signup.html");
-    }
-
-    private static void SignUp(Context ctx) {
-        String email = ctx.formParam("email");
-
-        // Tjek om email er ikke null og ikke tom
-        if (email != null && !email.isEmpty()) {
-
-            // Hent subscriber fra databasen via SubscriberMapper
-            Subscriber subscriber = SubscriberMapper.signUp(email, connectionPool);
-
-            // Gem information og vis success med besked
-            ctx.attribute("you have subscribed to Campus Lyngby Newsletter", subscriber + " " + email);
-            ctx.render("signup.html");
-        } else {
-            // Hvis email er tom, vis en fejlbesked
-            ctx.attribute("message", "Email cannot be empty");
-            ctx.render("signup.html");
-        }
     }
 }

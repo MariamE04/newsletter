@@ -1,0 +1,45 @@
+/* newsletter.css */
+
+/* Centrer overskriften */
+h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
+/* Centrer linket til nyhedsbrevet */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+/* Stil linket som en knap */
+a.th-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    margin: 20px 0; /* Afstand omkring knappen */
+}
+
+a.th-button:hover {
+    background-color: #0056b3;
+}
+
+/* Få linket til at være i bunden af siden */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+header, footer {
+    text-align: center;
+}

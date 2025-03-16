@@ -95,14 +95,10 @@ public class NewsletterController {
                 return;
             }
 
-            // Sørg for, at .pdf kun tilføjes, hvis det ikke allerede er der
-            String pdfFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
-
-            // Tjekker, om filen allerede ender med .pdf
+           String pdfFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
             if (!pdfFilename.toLowerCase().endsWith(".pdf")) {
                 pdfFilename += ".pdf";
             }
-
 
             String thumbnailFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_") + ".png";
             Path pdfPath = newslettersDir.resolve(pdfFilename);
@@ -139,6 +135,4 @@ public class NewsletterController {
             ctx.result("Der opstod en fejl ved hentning af det nyeste nyhedsbrev.");
         }
     }
-
-
 }

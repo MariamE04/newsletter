@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nyhedsbreve</title>
     <link href="../../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../../public/css/newsletters.css" th:href="@{/css/newsletters.css}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -13,6 +14,9 @@
 </header>
 
 <h1>Liste af Nyhedsbreve</h1>
+
+<!-- Link til det nyeste nyhedsbrev med knap-stil -->
+<a th:href="@{/latest-newsletter}" class="th-button">Se den nyeste nyhedsbrev</a>
 
 <!-- Hvis der er ingen nyhedsbreve -->
 <div th:if="${#lists.isEmpty(newsletters)}">
@@ -42,9 +46,10 @@
     </div>
 
     <a th:href="@{/upload}" class="upload-link">Tilføj et nyt nyhedsbrev</a>
-    <a th:href="@{/latest-newsletter}">Se det nyeste nyhedsbrev</a>
-
 </div>
+
+<footer>
+</footer>
 
 </body>
 </html>

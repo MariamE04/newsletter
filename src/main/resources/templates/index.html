@@ -18,6 +18,8 @@
     <button type="submit">Sign Up</button>
     <h3><a th:href="@{/newsletters}" href="/newsletters">Se arkiverede nyhedsbreve</a></h3>
 
+    <div class="subscriber-message" th:if="${message}"><p th:text="${message}"></p></div>
+
 
 </form>
 </body>
