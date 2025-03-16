@@ -6,7 +6,7 @@ body {
     height: 100vh;            /* Få body til at fylde hele skærmen */
     margin: 0;                /* Fjern marginer */
     font-family: Arial, sans-serif; /* Vælg skrifttype */
-    background-color: #72acec; /* Valgfri baggrundsfarve */
+    background-color: bisque; /* Valgfri baggrundsfarve */
 }
 
 /* Indholdet, der skal centreret */

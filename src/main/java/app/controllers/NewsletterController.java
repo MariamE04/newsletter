@@ -95,10 +95,11 @@ public class NewsletterController {
                 return;
             }
 
-           String pdfFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+            String pdfFilename = Path.of(title).getFileName().toString().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
             if (!pdfFilename.toLowerCase().endsWith(".pdf")) {
                 pdfFilename += ".pdf";
             }
+
 
             String thumbnailFilename = title.replaceAll("[^a-zA-Z0-9\\.\\-]", "_") + ".png";
             Path pdfPath = newslettersDir.resolve(pdfFilename);
