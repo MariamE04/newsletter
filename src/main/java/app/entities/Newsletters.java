@@ -31,40 +31,20 @@ public class Newsletters {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getFilename() {
         return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
     }
 
     public String getTeasertext() {
         return teasertext;
     }
 
-    public void setTeasertext(String teasertext) {
-        this.teasertext = teasertext;
-    }
-
     public String getThumbnail_name() {
         return thumbnail_name;
     }
 
-    public void setThumbnail_name(String thumbnail_name) {
-        this.thumbnail_name = thumbnail_name;
-    }
-
     public Date getPublished() {
         return published;
-    }
-
-    public void setPublished(Date published) {
-        this.published = published;
     }
 
 
